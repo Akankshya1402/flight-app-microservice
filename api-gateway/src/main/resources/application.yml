@@ -1,8 +1,34 @@
+server:
+  port: 8080
+
 spring:
   application:
     name: api-gateway
+
   config:
-    import: "optional:configserver:http://localhost:8888"
+    import: "optional:configserver:http://localhost:8888/"
+
+  cloud:
+    gateway:
+      routes:
+
+        # ---- FLIGHT SERVICE ----
+        - id: flight-service
+          uri: lb://flight-service
+          predicates:
+            - Path=/api/flight/**
+
+        # ---- BOOKING SERVICE ----
+        - id: booking-service
+          uri: lb://booking-service
+          predicates:
+            - Path=/api/booking/**
+
+        # ---- NOTIFICATION SERVICE (if needed for testing) ----
+        - id: notification-service
+          uri: lb://notification-service
+          predicates:
+            - Path=/api/notify/**
 
 eureka:
   client:
@@ -10,3 +36,6 @@ eureka:
     fetch-registry: true
     service-url:
       defaultZone: http://localhost:8761/eureka
+
+  instance:
+    prefer-ip-address: true

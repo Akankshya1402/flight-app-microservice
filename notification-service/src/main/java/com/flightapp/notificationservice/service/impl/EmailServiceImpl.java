@@ -1,54 +1,32 @@
 package com.flightapp.notificationservice.service.impl;
 
-import com.flightapp.notificationservice.kafka.BookingEvent;
 import com.flightapp.notificationservice.messaging.EmailMessage;
 import com.flightapp.notificationservice.service.EmailService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
+@Slf4j
 @Service
 public class EmailServiceImpl implements EmailService {
 
-    private static final Logger log = LoggerFactory.getLogger(EmailServiceImpl.class);
-
-    private final JavaMailSender mailSender;
-
-    public EmailServiceImpl(JavaMailSender mailSender) {
-        this.mailSender = mailSender;
-    }
+    private final List<String> logs = new ArrayList<>();
 
     @Override
     public void sendEmail(EmailMessage message) {
-        log.info("Sending email to={} subject={}", message.getTo(), message.getSubject());
 
-        SimpleMailMessage mail = new SimpleMailMessage();
-        mail.setTo(message.getTo());
-        mail.setSubject(message.getSubject());
-        mail.setText(message.getBody());
+        String logEntry = "Email processed for: " + message.getTo()
+                + " | Subject: " + message.getSubject();
 
-        mailSender.send(mail);
+        logs.add(logEntry);
+        log.info(logEntry);
     }
 
     @Override
-    public void sendBookingConfirmation(BookingEvent event) {
-        log.info("Sending booking confirmation email to={} bookingId={}",
-                event.getCustomerEmail(), event.getBookingId());
-
-        String body = "Your booking is confirmed!\n\n"
-                + "Booking ID: " + event.getBookingId() + "\n"
-                + "Flight: " + event.getFlightNumber() + "\n"
-                + "Amount Paid: " + event.getAmount() + "\n"
-                + "Booking Time: " + event.getBookingTime() + "\n\n"
-                + "Thank you for choosing us!";
-
-        SimpleMailMessage mail = new SimpleMailMessage();
-        mail.setTo(event.getCustomerEmail());
-        mail.setSubject("Flight Booking Confirmation");
-        mail.setText(body);
-
-        mailSender.send(mail);
+    public List<String> getLogs() {
+        return logs;
     }
 }
+

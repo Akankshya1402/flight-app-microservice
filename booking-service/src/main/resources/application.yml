@@ -8,9 +8,42 @@ spring:
   config:
     import: "optional:configserver:http://localhost:8888/"
 
+  datasource:
+    url: jdbc:mysql://localhost:3306/bookingdb
+    username: root
+    password: Root@123
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+    show-sql: true
+
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+
 eureka:
   client:
     register-with-eureka: true
     fetch-registry: true
     service-url:
-      defaultZone: http://localhost:8761/eureka
+      defaultZone: http://localhost:8761/eureka/
+  instance:
+    prefer-ip-address: true
+
+booking:
+  email:
+    exchange: booking.exchange
+    routing-key: booking.email.key
+    queue: booking.email.queue
+
+logging:
+  level:
+    root: INFO
+    com.flightapp.bookingservice: DEBUG
