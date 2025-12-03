@@ -24,7 +24,6 @@ public class FlightController {
         this.flightService = flightService;
     }
 
-    // POST /api/flight/airline/inventory  -> 201 CREATED
     @PostMapping(value = "/airline/inventory", consumes = MediaType.APPLICATION_JSON_VALUE)
     public Mono<ResponseEntity<FlightSummary>> addInventory(
             @Valid @RequestBody AddInventoryRequest request) {
@@ -35,7 +34,6 @@ public class FlightController {
                         .body(summary));
     }
 
-    // POST /api/flight/search  -> 200 OK
     @PostMapping("/search")
     public Flux<FlightSummary> searchFlights(
             @Valid @RequestBody FlightSearchRequest request,
@@ -51,19 +49,16 @@ public class FlightController {
         );
     }
 
-    // GET /api/flight/internal/{id}  -> used by booking-service
     @GetMapping("/internal/{id}")
     public Mono<FlightSummary> getFlightInternal(@PathVariable Long id) {
         return flightService.getFlightById(id);
     }
 
-    // GET /api/flight/{id}
     @GetMapping("/{id}")
     public Mono<FlightSummary> getFlightById(@PathVariable Long id) {
         return flightService.getFlightById(id);
     }
 
-    // GET /api/flight/all?page=&size=
     @GetMapping("/all")
     public Flux<FlightSummary> getAllFlights(
             @RequestParam(defaultValue = "0") int page,
@@ -72,10 +67,10 @@ public class FlightController {
         return flightService.getAllFlights(page, size);
     }
 
-    // GET /api/flight/{id}/seats
     @GetMapping("/{id}/seats")
     public Mono<Integer> getAvailableSeats(@PathVariable Long id) {
         return flightService.getAvailableSeats(id);
     }
 }
+
 

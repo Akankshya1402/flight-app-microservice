@@ -151,3 +151,4 @@ public class FlightServiceImpl implements FlightService {
                 .map(FlightSummary::availableSeats);
     }
 }
+
