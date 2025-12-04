@@ -1,0 +1,10 @@
+{
+  "id": "flight-env",
+  "name": "Local Environment",
+  "values": [
+    { "key": "gateway", "value": "http://localhost:8080", "enabled": true },
+    { "key": "booking", "value": "http://localhost:8082", "enabled": true },
+    { "key": "flight", "value": "http://localhost:8081", "enabled": true },
+    { "key": "notification", "value": "http://localhost:8083", "enabled": true }
+  ]
+}

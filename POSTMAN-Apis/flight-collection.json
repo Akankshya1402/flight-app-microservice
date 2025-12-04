@@ -1,0 +1,231 @@
+{
+  "info": {
+    "name": "Flight Booking Microservices - Full Collection",
+    "_postman_id": "flight-booking-collection-full",
+    "description": "Complete API Gateway test suite for Flight Booking Microservices project, including extended APIs for maximum marks.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+
+    {
+      "name": "FLIGHT-SERVICE",
+      "item": [
+
+        {
+          "name": "Add Inventory",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "http://localhost:8080/api/flight/airline/inventory",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"airlineCode\": \"6E\",\n  \"airlineName\": \"Indigo\",\n  \"logoUrl\": \"https://logo.png\",\n  \"fromCity\": \"DEL\",\n  \"toCity\": \"BOM\",\n  \"departureTime\": \"2025-12-25T10:20:00\",\n  \"arrivalTime\": \"2025-12-25T12:20:00\",\n  \"roundTrip\": false,\n  \"totalSeats\": 180,\n  \"priceOneWay\": 4500,\n  \"priceRoundTrip\": 8000\n}"
+            }
+          }
+        },
+
+        {
+          "name": "Search Flights",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "http://localhost:8080/api/flight/search",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"fromCity\": \"DEL\",\n  \"toCity\": \"BOM\",\n  \"departureFrom\": \"2025-12-24T00:00:00\",\n  \"departureTo\": \"2025-12-26T23:59:00\",\n  \"roundTrip\": false\n}"
+            }
+          }
+        },
+
+        {
+          "name": "Get Flight by ID",
+          "request": {
+            "method": "GET",
+            "url": "http://localhost:8080/api/flight/1"
+          }
+        },
+
+        {
+          "name": "Get All Flights (Paginated)",
+          "request": {
+            "method": "GET",
+            "url": "http://localhost:8080/api/flight/all?page=0&size=10"
+          }
+        },
+
+        {
+          "name": "Get Available Seats",
+          "request": {
+            "method": "GET",
+            "url": "http://localhost:8080/api/flight/1/seats"
+          }
+        },
+
+        {
+          "name": "Internal - Get Flight By ID (Feign)",
+          "request": {
+            "method": "GET",
+            "url": "http://localhost:8080/api/flight/internal/1"
+          }
+        }
+      ]
+    },
+
+
+
+    {
+      "name": "BOOKING-SERVICE",
+      "item": [
+
+        {
+          "name": "Book Flight",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "http://localhost:8080/api/booking/1",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"customerName\": \"Raj\",\n  \"email\": \"raj@example.com\",\n  \"numberOfSeats\": 2,\n  \"passengers\": [\n    { \"name\": \"Raj\", \"gender\": \"M\", \"age\": 28, \"seatNumber\": \"12A\" },\n    { \"name\": \"Simran\", \"gender\": \"F\", \"age\": 26, \"seatNumber\": \"12B\" }\n  ],\n  \"mealRequired\": true,\n  \"journeyDate\": \"2025-12-25T10:20:00\"\n}"
+            }
+          }
+        },
+
+        {
+          "name": "Get Ticket by PNR",
+          "request": {
+            "method": "GET",
+            "url": "http://localhost:8080/api/booking/ticket/RFY8292"
+          }
+        },
+
+        {
+          "name": "Booking History by Email",
+          "request": {
+            "method": "GET",
+            "url": "http://localhost:8080/api/booking/history/raj@example.com"
+          }
+        },
+
+        {
+          "name": "Cancel Ticket",
+          "request": {
+            "method": "DELETE",
+            "url": "http://localhost:8080/api/booking/cancel/RFY8292"
+          }
+        },
+
+        {
+          "name": "Booking Status",
+          "request": {
+            "method": "GET",
+            "url": "http://localhost:8080/api/booking/status/RFY8292"
+          }
+        },
+
+        {
+          "name": "Calculate Fare (Before Booking)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "http://localhost:8080/api/booking/calc-fare/1",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"numberOfSeats\": 2,\n  \"mealRequired\": true\n}"
+            }
+          }
+        }
+
+      ]
+    },
+
+
+
+    {
+      "name": "NOTIFICATION-SERVICE",
+      "item": [
+
+        {
+          "name": "Send Test Email",
+          "request": {
+            "method": "POST",
+            "url": "http://localhost:8080/api/notification/test-email?to=test@gmail.com"
+          }
+        },
+
+        {
+          "name": "Get Email Logs",
+          "request": {
+            "method": "GET",
+            "url": "http://localhost:8080/api/notification/logs"
+          }
+        }
+
+      ]
+    },
+
+
+
+    {
+      "name": "SYSTEM & ACTUATOR",
+      "item": [
+
+        {
+          "name": "Health Check",
+          "request": {
+            "method": "GET",
+            "url": "http://localhost:8080/actuator/health"
+          }
+        },
+
+        {
+          "name": "Actuator Info",
+          "request": {
+            "method": "GET",
+            "url": "http://localhost:8080/actuator/info"
+          }
+        },
+
+        {
+          "name": "Environment Variables",
+          "request": {
+            "method": "GET",
+            "url": "http://localhost:8080/actuator/env"
+          }
+        },
+
+        {
+          "name": "Gateway Routes",
+          "request": {
+            "method": "GET",
+            "url": "http://localhost:8080/actuator/gateway/routes"
+          }
+        },
+
+        {
+          "name": "JVM Memory Used",
+          "request": {
+            "method": "GET",
+            "url": "http://localhost:8080/actuator/metrics/jvm.memory.used"
+          }
+        },
+
+        {
+          "name": "Circuit Breaker Fallback (Flight)",
+          "request": {
+            "method": "GET",
+            "url": "http://localhost:8080/fallback/flight"
+          }
+        },
+
+        {
+          "name": "Circuit Breaker Fallback (Booking)",
+          "request": {
+            "method": "GET",
+            "url": "http://localhost:8080/fallback/booking"
+          }
+        }
+
+      ]
+    }
+  ]
+}
